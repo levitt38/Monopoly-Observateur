@@ -38,7 +38,7 @@ public class Monopoly{
 				else if(caseType.compareTo("C") == 0){
 					//System.out.println("Compagnie :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                                         Compagnie c = new Compagnie(Integer.valueOf(data.get(i)[1]),data.get(i)[2],Integer.valueOf(data.get(i)[3]));
-                                        getCarreaux().put(Integer.toString(i+1),c);
+                                        getCarreaux().put(Integer.toString(i),c);
                                         getCompagnies().add(c);
 				}
 				else if(caseType.compareTo("AU") == 0){
@@ -101,7 +101,7 @@ public class Monopoly{
     }
     
     public Monopoly() {
-        this.CreerPlateau("data.txt");
+        this.CreerPlateau("/users/info/etu-s2/nourik/m2103/Monopoly/Monopoly-PGM/Monopoly-PGM/src/Data/data.txt");
     }
     
 }

@@ -86,8 +86,7 @@ public class Controleur {
                               do{
                               choix = Questions.askStr("Voulez-vous acheter "+c.getNomCarreau()+" pour "+cAchetable.getPrixAchat()+"€ | oui/non ?");
                               choix.toLowerCase();
-                              }while(choix!="oui" && choix!="non");
-                              
+                              }while(!choix.equals("oui") && !choix.equals("non"));                                      
                               if(choix=="oui"){
                                   j.payerLoyer(cAchetable.getPrixAchat());
                                   j.addCarreauAchetable(cAchetable);
