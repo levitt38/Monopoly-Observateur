@@ -15,7 +15,10 @@ public class Gare extends CarreauAchetable {
  
         @Override
 	public int calculLoyer() {
-            int nb_gares = this.getProprietaire().getGares().size();
+            int nb_gares = 0;
+            if (this.getProprietaire()!=null){
+                nb_gares = this.getProprietaire().getGares().size();
+            }
             return 25*nb_gares;
 	}
 

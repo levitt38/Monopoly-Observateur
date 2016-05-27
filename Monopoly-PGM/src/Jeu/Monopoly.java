@@ -101,7 +101,7 @@ public class Monopoly{
     }
     
     public Monopoly() {
-        this.CreerPlateau("/users/info/etu-s2/nourik/m2103/Monopoly/Monopoly-PGM/Monopoly-PGM/src/Data/data.txt");
+        this.CreerPlateau("data.txt");
     }
     
 }

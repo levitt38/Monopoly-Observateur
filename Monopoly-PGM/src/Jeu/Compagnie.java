@@ -25,7 +25,10 @@ public class Compagnie extends CarreauAchetable {
         
         @Override
 	public int calculLoyer() {
-            int nb_compagnies = this.getProprietaire().getCompagnies().size();
+            int nb_compagnies = 0;
+            if(this.getProprietaire()!=null){
+                nb_compagnies = this.getProprietaire().getCompagnies().size();
+            }
             switch(nb_compagnies){
                 case 1 : return 4*this.dernierLancer;
                 case 2 : return 10*this.dernierLancer;
