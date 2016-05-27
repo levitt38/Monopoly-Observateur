@@ -91,15 +91,11 @@ public class Controleur {
                                  cAchetable.getProprietaire().payerLoyer(cAchetable.calculLoyer());
                                  break;
                 case SurSaCase : Questions.affiche("Vous êtes sur une de vos propriété, détendez vous"); break;
-                case AchatPossible : String choix = "non";
-                                  do{
-                                  choix = Questions.askStr("Voulez-vous acheter "+c.getNomCarreau()+" pour "+cAchetable.getPrixAchat()+"€ | oui/non ?");
-                                  choix.toLowerCase();
-                                  }while(!choix.equals("oui") && !choix.equals("non"));                                      
-                                  if(choix.equals("oui")){
-                                      j.payerLoyer(cAchetable.getPrixAchat());
-                                      j.addCarreauAchetable(cAchetable);
-                                  } break;
+                case AchatPossible : String choix = "non";                                    
+                              if(Questions.askYN("Voulez-vous acheter "+c.getNomCarreau()+" pour "+cAchetable.getPrixAchat()+"€ ?")){
+                                  j.payerLoyer(cAchetable.getPrixAchat());
+                                  j.addCarreauAchetable(cAchetable);
+                              } break;
                 case AchatImpossible : Questions.affiche("Vous n'avez pas le budget pour acheter ce bien"); break;
                 default : Questions.affiche("tour"); ;
             }

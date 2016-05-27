@@ -38,4 +38,11 @@ public class Questions {
         return scan.nextLine();
     }
     
+    public static boolean askYN(String s){
+        String choix = "";
+        while(!choix.equals("oui") && !choix.equals("non")){
+            choix = askStr(s+" (oui/non)").toLowerCase();
+        }
+        return choix.equals("oui");
+    }
 }
