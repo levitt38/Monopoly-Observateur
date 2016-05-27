@@ -28,7 +28,7 @@ public class Monopoly{
 				String caseType = data.get(i)[0];
 				if(caseType.compareTo("P") == 0){
 					//System.out.println("Propriété :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                                        getCarreaux().put(Integer.toString(i),new Propriete(Integer.valueOf(data.get(i)[1]),data.get(i)[2],
+                                        getCarreaux().put(Integer.toString(i),new Propriete(Integer.valueOf(data.get(i)[1]),data.get(i)[2],data.get(i)[3],
                                                 Integer.valueOf(data.get(i)[4]),Integer.valueOf(data.get(i)[5])));
 				}
 				else if(caseType.compareTo("G") == 0){

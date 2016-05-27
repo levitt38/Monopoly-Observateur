@@ -22,6 +22,7 @@ import java.util.Random;
 public class Controleur {
     private Monopoly monopoly;
     private boolean partieContinue = true;
+    private boolean lancerDouble = false;
     
     public Controleur() {
         this.monopoly = new Monopoly();
@@ -38,20 +39,26 @@ public class Controleur {
     
     public Carreau lancerDesAvancer(Joueur j){
         //Lancer1
-        int lancer = lancerDes();
+        int lancer = lancerDes(), position = 0;
         //Lancer2
         lancer += lancerDes();
+        //Est-ce une double ?
+        if(lancer==12){
+            this.lancerDouble = true;
+        }
         //Cette ligne sert a récupérer le montant des dès du lancer pour réaliser le loyer d'une compagnie
         for (Compagnie c : this.getMonopoly().getCompagnies()){
             c.setDernierLancer(lancer);
         }
         //Recup position du joueur
-        lancer += j.getPositionCourante().getNumero();
+        position = j.getPositionCourante().getNumero()+lancer;
         //Est-ce un jour de paye ?
-        if(lancer>40){
+        if(position>40){
             payerJoueur(j);
-            lancer = lancer%40;
-        } else {lancer = lancer%40;}
+        }
+        position = position%40;
+        //Affichage IHM des dès
+        Questions.affiche(TextColors.BLUE+"Résultat lancer : "+j.getNomJoueur()+" a fait un "+lancer+TextColors.RESET);
         //Return carreau correspondant
         return monopoly.getCarreau(lancer);
     }
@@ -70,32 +77,35 @@ public class Controleur {
     }
     
     public void jouerUnCoup(Joueur j) throws joueurDeadException{
-        j.setPositionCourante(lancerDesAvancer(j));
-        Carreau c = j.getPositionCourante(); CarreauAchetable cAchetable = null;
-        if(c.getType()!=TypeCarreau.AuteCarreau) {
-            cAchetable = (CarreauAchetable)j.getPositionCourante();
+        while(lancerDouble){
+            this.lancerDouble = false;
+            j.setPositionCourante(lancerDesAvancer(j));
+            Carreau c = j.getPositionCourante(); CarreauAchetable cAchetable = null;
+            if(c.getType()!=TypeCarreau.AuteCarreau) {
+                cAchetable = (CarreauAchetable)j.getPositionCourante();
+            }
+            Evenement res = c.evenementEnCours(j);
+            switch(res){
+                case PayéLoyer : Questions.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.calculLoyer()+"€ a"+cAchetable.getProprietaire()); 
+                                 j.payerLoyer(cAchetable.calculLoyer());
+                                 cAchetable.getProprietaire().payerLoyer(cAchetable.calculLoyer());
+                                 break;
+                case SurSaCase : Questions.affiche("Vous êtes sur une de vos propriété, détendez vous"); break;
+                case AchatPossible : String choix = "non";
+                                  do{
+                                  choix = Questions.askStr("Voulez-vous acheter "+c.getNomCarreau()+" pour "+cAchetable.getPrixAchat()+"€ | oui/non ?");
+                                  choix.toLowerCase();
+                                  }while(!choix.equals("oui") && !choix.equals("non"));                                      
+                                  if(choix.equals("oui")){
+                                      j.payerLoyer(cAchetable.getPrixAchat());
+                                      j.addCarreauAchetable(cAchetable);
+                                  } break;
+                case AchatImpossible : Questions.affiche("Vous n'avez pas le budget pour acheter ce bien"); break;
+                default : Questions.affiche("tour"); ;
+            }
+            //Renvoie une arithmetic exception si le joueur fait faillite
+            j.estBankrupt();
         }
-        Evenement res = c.evenementEnCours(j);
-        switch(res){
-            case PayéLoyer : Questions.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.calculLoyer()+"€ a"+cAchetable.getProprietaire()); 
-                             j.payerLoyer(cAchetable.calculLoyer());
-                             cAchetable.getProprietaire().payerLoyer(cAchetable.calculLoyer());
-                             break;
-            case SurSaCase : Questions.affiche("Vous êtes sur une de vos propriété, détendez vous"); break;
-            case AchatPossible : String choix = "non";
-                              do{
-                              choix = Questions.askStr("Voulez-vous acheter "+c.getNomCarreau()+" pour "+cAchetable.getPrixAchat()+"€ | oui/non ?");
-                              choix.toLowerCase();
-                              }while(!choix.equals("oui") && !choix.equals("non"));                                      
-                              if(choix=="oui"){
-                                  j.payerLoyer(cAchetable.getPrixAchat());
-                                  j.addCarreauAchetable(cAchetable);
-                              } break;
-            case AchatImpossible : Questions.affiche("Vous n'avez pas le budget pour acheter ce bien"); break;
-            default : Questions.affiche("tour"); ;
-        }
-        //Renvoie une arithmetic exception si le joueur fait faillite
-        j.estBankrupt();
     }
     
        
