@@ -21,4 +21,18 @@ public class TextColors {
     public static final String CYAN = "\u001B[36m";
     public static final String WHITE = "\u001B[37m";
 
+    public static String colorToCode(String s){
+        switch(s){
+            case "mauve": return PURPLE;
+            case "bleuCiel" : return CYAN;
+            //case "violet" : return FUCK:break;
+            //case "orange" : return FUCK;break;
+            case "rouge" : return RED;
+            case "jaune" : return YELLOW;
+            case "vert" : return GREEN;
+            case "bleuFonce" : return BLUE;
+            default : return BLACK;
+        }
+    }
+    
 }
