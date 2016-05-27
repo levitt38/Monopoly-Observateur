@@ -51,15 +51,12 @@ public class Questions {
     
     public static boolean askYN(String s){
         String choix = "";
-        boolean valide = true;
         do{
-            affiche(s);
-            choix = scan.nextLine();
+            choix = askStr(s+" (oui/non)");
             if(! choix.equalsIgnoreCase("oui") && ! choix.equalsIgnoreCase("non")){
-                valide = false;
-                affiche(TextColors.RED+"Merci de rentrer soit \"oui\" ou \"non\" !"+TextColors.RESET);
+                affiche(TextColors.RED+"Merci de rentrer soit \"oui\" soit \"non\" !"+TextColors.RESET);
             }
-        }while(! valide);
+        }while(!(choix.equalsIgnoreCase("oui")||choix.equalsIgnoreCase("non")));
         
         return choix.equalsIgnoreCase("oui");
     }

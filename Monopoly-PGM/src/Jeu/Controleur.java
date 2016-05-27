@@ -60,7 +60,7 @@ public class Controleur {
         //Affichage IHM des dès
         Questions.affiche(TextColors.BLUE+"Résultat lancer : "+j.getNomJoueur()+" a fait un "+lancer+TextColors.RESET);
         //Return carreau correspondant
-        return monopoly.getCarreau(lancer);
+        return monopoly.getCarreau(position);
     }
     
     public void joueurDead(Joueur j){
@@ -113,7 +113,7 @@ public class Controleur {
                 this.monopoly.addJoueur(new Joueur(Questions.askStr("Entrez le nom du joueur "+Integer.toString(i+1)),this.monopoly.getCarreau(0)));
                 Affichage.AfficherJoueur(this.monopoly.getJoueurs().get(this.monopoly.getJoueurs().size()-1));
             }
-            Affichage.afficherPlateau(new ArrayList<Carreau>(this.monopoly.getCarreaux().values()), this.monopoly.getJoueurs());
+            Affichage.afficherPlateau(this.monopoly);
     }
     
     public void Play(){

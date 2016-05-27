@@ -27,8 +27,8 @@ public class Propriete extends CarreauAchetable {
             return TypeCarreau.PropriteteAConstruire;
         }
         
-        public String getNomCarreau(){
-            return super.getNomCarreau()+"/"+this.groupe;
+        public String getNomCarreauColored(){
+            return TextColors.colorToCode(this.groupe)+super.getNomCarreau()+TextColors.RESET;
         }
         
         @Override

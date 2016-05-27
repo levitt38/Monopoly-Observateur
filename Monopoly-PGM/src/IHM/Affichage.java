@@ -5,10 +5,15 @@
  */
 package IHM;
 
+import Data.TypeCarreau;
 import Jeu.Carreau;
 import Jeu.Gare;
 import Jeu.Joueur;
+import Jeu.Monopoly;
+import Jeu.Propriete;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  *
@@ -73,15 +78,15 @@ public class Affichage {
     
     public static int heightCarreau(Carreau c){
         // not implemented yet
-        return 10;
+        return 1;
     }
     
     public static int widthCarreau(Carreau c){
-        // not implemented yet
-        return 10;
+        // not fully implemented yet
+        return c.getNomCarreau().length();
     }
     
-    public static void afficherPlateau(ArrayList<Carreau> p,ArrayList<Joueur> jo){
+    public static void afficherPlateau(Monopoly p){
         
         int[] nbRow = new int[11]; // le nombre de caractères de chaque colonne
         int[] nbColumn = new int[11]; // le nombre de lignes de chaque ligne
@@ -89,14 +94,14 @@ public class Affichage {
         for(int i=0;i<nbRow.length;i++){
             nbRow[i] = 0;
             for (int j:casesInColumn(i)){
-                a = widthCarreau(p.get(j));
+                a = widthCarreau(p.getCarreau(j));
                 nbRow[i] = Integer.max(nbRow[i], a);
             }
         }
         for(int i=0;i<nbColumn.length;i++){
             nbColumn[i] = 0;
             for (int j:casesInRow(i)){
-                a = heightCarreau(p.get(j));
+                a = heightCarreau(p.getCarreau(j));
                 nbColumn[i] = Integer.max(nbColumn[i], a);
             }
         }
@@ -142,8 +147,21 @@ public class Affichage {
                     if(k==0){
                         tmp += VERTICAL_LINE;
                     }
-                    for (int l = 0;l<nbRow[k];l++){
-                        tmp+=PADDING;
+                    if (i==0 || i==10 || k==0 || k==10){
+                        Carreau c = p.getCarreau(numCase(k,i));
+                        if(c.getType()==TypeCarreau.PropriteteAConstruire){
+                            Propriete cc = (Propriete) c;
+                            tmp+=cc.getNomCarreauColored();
+                        }else{
+                            tmp+=c.getNomCarreau();
+                        }
+                        for (int l = 0;l<nbRow[k]-c.getNomCarreau().length();l++){
+                            tmp+=PADDING;
+                        }
+                    }else{
+                        for (int l = 0;l<nbRow[k];l++){
+                            tmp+=PADDING;
+                        }
                     }
                     if(k<nbRow.length-1){
                         tmp+=VERTICAL_LINE;
@@ -175,5 +193,17 @@ public class Affichage {
             Questions.affiche(s);
         }
         
+    }
+    
+    public static int numCase(int x,int y){
+        if (y==10){
+            return 10-x;
+        }else if (x==0){
+            return 20-y;
+        }else if(x==10){
+            return 30+y;
+        }else{
+            return 20+x;           
+        }
     }
 }
