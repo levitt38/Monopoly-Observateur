@@ -22,7 +22,7 @@ import java.util.Random;
 public class Controleur {
     private Monopoly monopoly;
     private boolean partieContinue = true;
-    private boolean lancerDouble = false;
+    private boolean lancerDouble = true;
     
     public Controleur() {
         this.monopoly = new Monopoly();
@@ -77,6 +77,7 @@ public class Controleur {
     }
     
     public void jouerUnCoup(Joueur j) throws joueurDeadException{
+        this.lancerDouble=true;
         while(lancerDouble){
             this.lancerDouble = false;
             j.setPositionCourante(lancerDesAvancer(j));
