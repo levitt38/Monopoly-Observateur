@@ -30,7 +30,7 @@ public class Controleur {
 
     public void payerJoueur(Joueur j){
         j.recevoirPaie();
-        Questions.affiche("tu as reçu ton dû bro !");
+        Questions.affiche(TextColors.GREEN+"Joueur "+j.getNomJoueur()+" recoit sa paie : +200€"+TextColors.RESET);
     }
     
     private int lancerDes(){

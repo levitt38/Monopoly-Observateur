@@ -29,20 +29,38 @@ public class Questions {
     }
     
     public static int askNb(String s){
-        affiche(s);
-        return scan.nextInt();
+        int choix = 0;
+        boolean valide = false;
+        do{
+            affiche(s);
+            try{
+                choix = scan.nextInt();
+                valide = true;
+            } catch(Exception e){ affiche(TextColors.RED+"Merci de rentrer un chiffre svp !"+TextColors.RESET); }
+        }while(! valide);
+        return choix;
     }
     
     public static String askStr(String s){
-        affiche(s);
-        return scan.nextLine();
+        affiche(s); String str;
+        do{
+            str = scan.nextLine();
+        }while(str.equals(""));
+        return str;
     }
     
     public static boolean askYN(String s){
         String choix = "";
-        while(!choix.equals("oui") && !choix.equals("non")){
-            choix = askStr(s+" (oui/non)").toLowerCase();
-        }
-        return choix.equals("oui");
+        boolean valide = true;
+        do{
+            affiche(s);
+            choix = scan.nextLine();
+            if(! choix.equalsIgnoreCase("oui") && ! choix.equalsIgnoreCase("non")){
+                valide = false;
+                affiche(TextColors.RED+"Merci de rentrer soit \"oui\" ou \"non\" !"+TextColors.RESET);
+            }
+        }while(! valide);
+        
+        return choix.equalsIgnoreCase("oui");
     }
 }
