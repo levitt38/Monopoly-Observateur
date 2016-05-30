@@ -25,8 +25,6 @@ public class TextColors {
         switch(s){
             case "mauve": return PURPLE;
             case "bleuCiel" : return CYAN;
-            //case "violet" : return FUCK:break;
-            //case "orange" : return FUCK;break;
             case "rouge" : return RED;
             case "jaune" : return YELLOW;
             case "vert" : return GREEN;
