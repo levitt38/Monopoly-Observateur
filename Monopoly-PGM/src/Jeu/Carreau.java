@@ -2,15 +2,22 @@ package Jeu;
 
 import Data.Evenement;
 import Data.TypeCarreau;
+import java.util.ArrayList;
 
 public abstract class Carreau {
 	private int _numero;
 	private String _nomCarreau;
+
+    public void setJoueurs(ArrayList<Joueur> joueurs) {
+        this.joueurs = joueurs;
+    }
+        private ArrayList<Joueur> joueurs;
         
         
         public Carreau(int numero, String nomCarreau){
             this._nomCarreau = nomCarreau;
             this._numero = numero;
+            this.setJoueurs(new ArrayList<>());
         }
 
     public int getNumero() {
@@ -25,5 +32,9 @@ public abstract class Carreau {
     public abstract TypeCarreau getType();
     
     public abstract Evenement evenementEnCours(Joueur j);
+
+    public ArrayList<Joueur> getJoueurs() {
+        return joueurs;
+    }
 
 }

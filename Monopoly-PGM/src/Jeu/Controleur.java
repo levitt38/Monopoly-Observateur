@@ -42,7 +42,7 @@ public class Controleur {
         int lancer = lancerDes(), position = 0;
         //Lancer2
         lancer += lancerDes();
-        //Est-ce une double ?
+        //Est-ce un double ?
         if(lancer==12){
             this.lancerDouble = true;
         }
@@ -130,6 +130,7 @@ public class Controleur {
                             joueurDead(j); 
                             partieEstFinie();
                         } 
+                        Affichage.afficherFinTour();
                     }
                 } 
                 //Si exception => le boolean=false et on arrête de boucler

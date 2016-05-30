@@ -34,6 +34,9 @@ public class Affichage {
     private static final String PADDING = " ";
     private static final String VERTICAL_LINE = "│";
     
+    public static void afficherFinTour(){
+        Questions.affiche(TextColors.RED+"FIN DU TOUR ------------------------------"+TextColors.RESET);
+    }
     public static void AfficherJoueur(Joueur j){
         Questions.affiche(j.getNomJoueur());
         Questions.increment();
