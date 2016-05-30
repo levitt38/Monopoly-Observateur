@@ -45,6 +45,7 @@ public class Controleur {
         //Est-ce un double ?
         if(lancer==lancer2){
             this.lancerDouble = true;
+            Questions.affiche(TextColors.BLUE+"Vous avez fait un double !"+TextColors.RESET);
         }
         lancer += lancer2;
         //Cette ligne sert a récupérer le montant des dès du lancer pour réaliser le loyer d'une compagnie
@@ -99,7 +100,7 @@ public class Controleur {
                                   j.addCarreauAchetable(cAchetable);
                               } break;
                 case AchatImpossible : Questions.affiche("Vous n'avez pas le budget pour acheter ce bien"); break;
-                default : Questions.affiche("tour"); ;
+                default : Questions.affiche("Vous êtes tranquille. Pour le moment..."); ;
             }
             //Renvoie une arithmetic exception si le joueur fait faillite
             j.estBankrupt();
@@ -114,7 +115,6 @@ public class Controleur {
                 this.monopoly.addJoueur(new Joueur(Questions.askStr("Entrez le nom du joueur "+Integer.toString(i+1)),this.monopoly.getCarreau(0)));
                 Affichage.AfficherJoueur(this.monopoly.getJoueurs().get(this.monopoly.getJoueurs().size()-1));
             }
-            Affichage.afficherPlateau(this.monopoly);
     }
     
     public void Play(){

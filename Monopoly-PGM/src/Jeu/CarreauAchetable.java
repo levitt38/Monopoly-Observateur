@@ -33,12 +33,14 @@ public abstract class CarreauAchetable extends Carreau{
 		return this._proprietaire;
 	}
 
-	public void acheterPropriete(Joueur aJ) {
-		throw new UnsupportedOperationException();
+	public void acheter(Joueur aJ) {
+            aJ.addCarreauAchetable(this);
+            aJ.payerPropriete(this.getPrixAchat());
+            this.setProprietaire(aJ);
 	}
  
         public boolean verifierAchat(Joueur j){
-            return this.calculLoyer()<=j.getCash();
+            return this.getPrixAchat()<=j.getCash();
         }
         
         public Evenement evenementEnCours(Joueur j){
@@ -55,4 +57,8 @@ public abstract class CarreauAchetable extends Carreau{
                 }
             }
         }
+
+    public void setProprietaire(Joueur _proprietaire) {
+        this._proprietaire = _proprietaire;
+    }
 }

@@ -79,5 +79,13 @@ public class Joueur {
     public String getNomJoueur() {
         return _nomJoueur;
     }
+
+    void payerPropriete(int prixAchat) {
+        this.setCash(this.getCash()-prixAchat);
+    }
+
+    public void setCash(int _cash) {
+        this._cash = _cash;
+    }
    
 }
