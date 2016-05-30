@@ -32,10 +32,11 @@ public class Questions {
         int choix = 0;
         boolean valide = true;
         do{
+            affiche(s);
             try{
-                affiche(s);
                 choix = scan.nextInt();
-            } catch(NumberFormatException e){ affiche(TextColors.RED+"Merci de rentrer un chiffre svp !"+TextColors.RESET); valide=false; }
+                valide = true;
+            } catch(Exception e){ affiche(TextColors.RED+"Merci de rentrer un chiffre svp !"+TextColors.RESET); valide=false; scan.next();}
         }while(!valide);
         return choix;
     }

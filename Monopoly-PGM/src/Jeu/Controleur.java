@@ -41,11 +41,12 @@ public class Controleur {
         //Lancer1
         int lancer = lancerDes(), position = 0;
         //Lancer2
-        lancer += lancerDes();
+        int lancer2 = lancerDes();
         //Est-ce un double ?
-        if(lancer==12){
+        if(lancer==lancer2){
             this.lancerDouble = true;
         }
+        lancer += lancer2;
         //Cette ligne sert a récupérer le montant des dès du lancer pour réaliser le loyer d'une compagnie
         for (Compagnie c : this.getMonopoly().getCompagnies()){
             c.setDernierLancer(lancer);
