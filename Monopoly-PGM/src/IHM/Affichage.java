@@ -81,7 +81,7 @@ public class Affichage {
     
     public static int heightCarreau(Carreau c){
         // not implemented yet
-        return 1;
+        return 1+c.getJoueurs().size();
     }
     
     public static int widthCarreau(Carreau c){
@@ -152,14 +152,27 @@ public class Affichage {
                     }
                     if (i==0 || i==10 || k==0 || k==10){
                         Carreau c = p.getCarreau(numCase(k,i));
-                        if(c.getType()==TypeCarreau.PropriteteAConstruire){
-                            Propriete cc = (Propriete) c;
-                            tmp+=cc.getNomCarreauColored();
+                        if(j==0){
+                            if(c.getType()==TypeCarreau.PropriteteAConstruire){
+                                Propriete cc = (Propriete) c;
+                                tmp+=cc.getNomCarreauColored();
+                            }else{
+                                tmp+=c.getNomCarreau();
+                            }
+                            for (int l = 0;l<nbRow[k]-c.getNomCarreau().length();l++){
+                                tmp+=PADDING;
+                            }
                         }else{
-                            tmp+=c.getNomCarreau();
-                        }
-                        for (int l = 0;l<nbRow[k]-c.getNomCarreau().length();l++){
-                            tmp+=PADDING;
+                            if(j<=c.getJoueurs().size()){
+                                tmp+=TextColors.RED+c.getJoueurs().get(j-1).getNomJoueur()+TextColors.RESET;
+                                for (int l = 0;l<nbRow[k]-c.getJoueurs().get(j-1).getNomJoueur().length();l++){
+                                    tmp+=PADDING;
+                                }
+                            }else{
+                                for (int l = 0;l<nbRow[k];l++){
+                                    tmp+=PADDING;
+                                }
+                            }
                         }
                     }else{
                         for (int l = 0;l<nbRow[k];l++){

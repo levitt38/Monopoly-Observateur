@@ -15,7 +15,7 @@ public class Joueur {
 
     public Joueur(String _nomJoueur, Carreau pos) {
         this._nomJoueur = _nomJoueur;
-        this._positionCourante=pos;
+        this.setPositionCourante(pos);
         this._gares = new HashSet<>(); 
         this._proprietes = new HashSet<>();
         this._compagnies = new HashSet<>();
@@ -50,11 +50,11 @@ public class Joueur {
     }
     
     public void setPositionCourante(Carreau _positionCourante) {
-        if(_positionCourante != null && ! this._positionCourante.equals(_positionCourante)){
+        if(this._positionCourante != null){
             this._positionCourante.removeJoueur(this);
-            _positionCourante.addJoueur(this);
-            this._positionCourante = _positionCourante;
         }
+        _positionCourante.addJoueur(this);
+        this._positionCourante = _positionCourante;
     }
     /////////////////////////////////////////////
     public HashSet<Gare> getGares() {

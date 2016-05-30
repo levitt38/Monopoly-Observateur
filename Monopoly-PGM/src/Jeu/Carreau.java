@@ -8,7 +8,7 @@ public abstract class Carreau {
 	private int _numero;
 	private String _nomCarreau;
 
-    public void setJoueurs(ArrayList<Joueur> joueurs) {
+    private void setJoueurs(ArrayList<Joueur> joueurs) {
         this.joueurs = joueurs;
     }
         private ArrayList<Joueur> joueurs;
@@ -42,7 +42,9 @@ public abstract class Carreau {
     }
     
     public void removeJoueur(Joueur j){
-        this.getJoueurs().remove(j);
+        if(this.getJoueurs().contains(j)){
+            this.getJoueurs().remove(j);
+        }
     }
 
 }

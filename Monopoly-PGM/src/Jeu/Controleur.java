@@ -123,8 +123,9 @@ public class Controleur {
                 try {
                     for (Joueur j:this.monopoly.getJoueurs()){
                         try{
-                            this.jouerUnCoup(j);
+                            Affichage.afficherPlateau(monopoly);
                             Affichage.AfficherJoueur(j);
+                            this.jouerUnCoup(j);
                         }
                         //Une exception est levée si le joueur est insolvable, puis on vérifie si la partie continue
                         catch(joueurDeadException e) {
