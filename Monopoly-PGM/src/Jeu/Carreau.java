@@ -36,5 +36,13 @@ public abstract class Carreau {
     public ArrayList<Joueur> getJoueurs() {
         return joueurs;
     }
+    
+    public void addJoueur(Joueur j){
+        this.getJoueurs().add(j);
+    }
+    
+    public void removeJoueur(Joueur j){
+        this.getJoueurs().remove(j);
+    }
 
 }
