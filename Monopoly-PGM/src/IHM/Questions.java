@@ -30,13 +30,12 @@ public class Questions {
     
     public static int askNb(String s){
         int choix = 0;
-        boolean valide = false;
+        boolean valide = true;
         do{
-            affiche(s);
             try{
+                affiche(s);
                 choix = scan.nextInt();
-                valide = true;
-            } catch(Exception e){ affiche(TextColors.RED+"Merci de rentrer un chiffre svp !"+TextColors.RESET); }
+            } catch(NumberFormatException e){ affiche(TextColors.RED+"Merci de rentrer un chiffre svp !"+TextColors.RESET); valide=false; }
         }while(!valide);
         return choix;
     }

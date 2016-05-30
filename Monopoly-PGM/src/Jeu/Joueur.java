@@ -50,7 +50,11 @@ public class Joueur {
     }
     
     public void setPositionCourante(Carreau _positionCourante) {
-        this._positionCourante = _positionCourante;
+        if(_positionCourante != null && ! this._positionCourante.equals(_positionCourante)){
+            this._positionCourante.removeJoueur(this);
+            _positionCourante.addJoueur(this);
+            this._positionCourante = _positionCourante;
+        }
     }
     /////////////////////////////////////////////
     public HashSet<Gare> getGares() {
