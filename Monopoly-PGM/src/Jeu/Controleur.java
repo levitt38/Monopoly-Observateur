@@ -84,12 +84,12 @@ public class Controleur {
             this.lancerDouble = false;
             j.setPositionCourante(lancerDesAvancer(j));
             Carreau c = j.getPositionCourante(); CarreauAchetable cAchetable = null;
-            if(c.getType()!=TypeCarreau.AuteCarreau) {
+            if(c.getType()!=TypeCarreau.AutreCarreau) {
                 cAchetable = (CarreauAchetable)j.getPositionCourante();
             }
-            Evenement res = c.evenementEnCours(j);
+            Evenement res = c.action(j);
             switch(res){
-                case PayéLoyer : Questions.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.calculLoyer()+"€ a"+cAchetable.getProprietaire()); 
+                case PayerLoyer : Questions.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.calculLoyer()+"€ a"+cAchetable.getProprietaire()); 
                                  j.payerLoyer(cAchetable.calculLoyer());
                                  cAchetable.getProprietaire().payerLoyer(cAchetable.calculLoyer());
                                  break;

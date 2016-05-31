@@ -24,7 +24,7 @@ public class Propriete extends CarreauAchetable {
         
         @Override
         public TypeCarreau getType(){
-            return TypeCarreau.PropriteteAConstruire;
+            return TypeCarreau.ProprieteAConstruire;
         }
         
         public String getNomCarreauColored(){

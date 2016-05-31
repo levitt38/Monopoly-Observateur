@@ -153,7 +153,7 @@ public class Affichage {
                     if (i==0 || i==10 || k==0 || k==10){
                         Carreau c = p.getCarreau(numCase(k,i));
                         if(j==0){
-                            if(c.getType()==TypeCarreau.PropriteteAConstruire){
+                            if(c.getType()==TypeCarreau.ProprieteAConstruire){
                                 Propriete cc = (Propriete) c;
                                 tmp+=cc.getNomCarreauColored();
                             }else{

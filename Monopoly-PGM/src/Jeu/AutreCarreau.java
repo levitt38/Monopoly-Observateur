@@ -14,19 +14,14 @@ public class AutreCarreau extends Carreau {
         public AutreCarreau(int num, String chaine){
             super(num,chaine);
         }
-        
-        
-	public void action(Joueur aJ) {
-		throw new UnsupportedOperationException();
-	}
-        
+           
     @Override
     public TypeCarreau getType(){
-        return TypeCarreau.AuteCarreau;
+        return TypeCarreau.AutreCarreau;
     }
 
     @Override
-    public Evenement evenementEnCours(Joueur j) {
+    public Evenement action(Joueur j) {
         return Evenement.Rien;
     }
     

@@ -31,7 +31,7 @@ public abstract class Carreau {
     
     public abstract TypeCarreau getType();
     
-    public abstract Evenement evenementEnCours(Joueur j);
+    public abstract Evenement action(Joueur j);
 
     public ArrayList<Joueur> getJoueurs() {
         return joueurs;

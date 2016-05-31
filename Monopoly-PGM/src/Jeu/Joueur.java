@@ -69,7 +69,7 @@ public class Joueur {
         this._carreaux.add(c);
         TypeCarreau type = c.getType();
         switch(type){
-            case PropriteteAConstruire : this._proprietes.add((Propriete)c);break;
+            case ProprieteAConstruire : this._proprietes.add((Propriete)c);break;
             case Gare : this._gares.add((Gare)c);break;
             case Compagnie : this._compagnies.add((Compagnie)c);break;
             default : return;

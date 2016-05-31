@@ -42,13 +42,16 @@ public abstract class CarreauAchetable extends Carreau{
         public boolean verifierAchat(Joueur j){
             return this.getPrixAchat()<=j.getCash();
         }
+        @Override
+        public abstract TypeCarreau getType();
         
-        public Evenement evenementEnCours(Joueur j){
+        @Override
+        public Evenement action(Joueur j){
             CarreauAchetable c = (CarreauAchetable)j.getPositionCourante();
             if(c.getProprietaire()!=null){
                 if(c.getProprietaire().equals(j)){
                     return Evenement.SurSaCase;
-                } else { return Evenement.PayéLoyer;}
+                } else { return Evenement.PayerLoyer;}
             }else{
                 if(c.verifierAchat(j)){
                     return Evenement.AchatPossible;
