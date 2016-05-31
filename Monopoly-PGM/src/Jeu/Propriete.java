@@ -13,10 +13,10 @@ import java.util.Scanner;
  */
 public class Propriete extends CarreauAchetable {  
         private int loyerTerrainNu; //prix incrémenté par construction supp, dans version PT
-        private String groupe;
+        private Groupe groupe;
       
         
-        public Propriete(int numero, String nomCarreau, String groupe,int prixAchat, int loyerNu) {
+        public Propriete(int numero, String nomCarreau, Groupe groupe,int prixAchat, int loyerNu) {
             super(numero, nomCarreau, prixAchat);
             this.loyerTerrainNu = loyerNu;
             this.groupe = groupe;
@@ -28,7 +28,7 @@ public class Propriete extends CarreauAchetable {
         }
         
         public String getNomCarreauColored(){
-            return TextColors.colorToCode(this.groupe)+super.getNomCarreau()+TextColors.RESET;
+            return TextColors.colorToCode(this.groupe.getCouleur().toString())+super.getNomCarreau()+TextColors.RESET;
         }
         
         @Override
