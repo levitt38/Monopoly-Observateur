@@ -33,15 +33,15 @@ public class Controleur {
         Questions.affiche(TextColors.GREEN+"Joueur "+j.getNomJoueur()+" recoit sa paie : +200€"+TextColors.RESET);
     }
     
-    private int lancerDes(){
+    private int lancerD6(){
         return (int)(Math.random()*100%6)+1;
     }
     
     public Carreau lancerDesAvancer(Joueur j){
         //Lancer1
-        int lancer = lancerDes(), position = 0;
+        int lancer = lancerD6(), position = 0;
         //Lancer2
-        int lancer2 = lancerDes();
+        int lancer2 = lancerD6();
         //Est-ce un double ?
         if(lancer==lancer2){
             this.lancerDouble = true;
@@ -117,7 +117,7 @@ public class Controleur {
             }
     }
     
-    public void Play(){
+    public void mainLoop(){
             initPartie();
             while(partieContinue){
                 try {
