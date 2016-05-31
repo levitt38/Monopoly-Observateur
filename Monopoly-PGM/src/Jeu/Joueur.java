@@ -60,9 +60,15 @@ public class Joueur {
     public HashSet<Gare> getGares() {
         return _gares;
     }
-    
+    public int getNbGares(){
+        return getGares().size();
+    }
     public HashSet<Compagnie> getCompagnies(){
         return _compagnies;
+    }
+    
+    public int getNbCompagnies(){ 
+        return getCompagnies().size();
     }
     /////////////////////////////////////////////
     public void addCarreauAchetable(CarreauAchetable c){
