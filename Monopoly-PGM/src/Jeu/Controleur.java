@@ -20,9 +20,9 @@ import java.util.Random;
  * @author mouhatcl
  */
 public class Controleur {
-    private Monopoly monopoly;
-    private boolean partieContinue = true;
-    private boolean lancerDouble = true;
+    protected Monopoly monopoly;
+    protected boolean partieContinue = true;
+    protected boolean lancerDouble = true;
     
     public Controleur() {
         this.monopoly = new Monopoly();
