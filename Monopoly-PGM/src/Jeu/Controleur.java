@@ -70,7 +70,7 @@ public class Controleur {
         Questions.affiche(TextColors.RED+"Le joueur "+j.getNomJoueur()+" vient d'être éliminé"+TextColors.RESET);
     }
     
-    public void partieEstFinie() throws partieFinieException{
+    public boolean partieEstFinie(){
         if(this.monopoly.getJoueurs().size()<2){
             this.partieContinue = false;
             Questions.affiche(TextColors.BLUE+"Partie Terminée !! "+TextColors.GREEN+"Le joueur "+monopoly.getJoueurs().get(0).getNomJoueur()+" l'emporte");
@@ -110,7 +110,9 @@ public class Controleur {
        
     public void initPartie(){
             int nb;
-            nb=Questions.askNb("Entrez le nombre de joueurs");
+            do{
+                nb=Questions.askNb("Entrez le nombre de joueurs");
+            }while (nb<=1||nb>6);            
             for(int i=0;i<nb;i++){
                 this.monopoly.addJoueur(new Joueur(Questions.askStr("Entrez le nom du joueur "+Integer.toString(i+1)),this.monopoly.getCarreau(0)));
                 Affichage.AfficherJoueur(this.monopoly.getJoueurs().get(this.monopoly.getJoueurs().size()-1));

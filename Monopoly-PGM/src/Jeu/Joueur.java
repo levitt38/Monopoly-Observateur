@@ -93,5 +93,9 @@ public class Joueur {
     public void setCash(int _cash) {
         this._cash = _cash;
     }
+
+    public HashSet<Propriete> getProprietes() {
+        return _proprietes;
+    }
    
 }

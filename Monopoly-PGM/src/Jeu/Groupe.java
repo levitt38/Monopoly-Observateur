@@ -11,6 +11,7 @@ public class Groupe {
         
         public Groupe(CouleurPropriete C){
             this.couleur = C;
+            this.setProprietes(new ArrayList<>());
             
         }
     /**

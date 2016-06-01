@@ -111,6 +111,7 @@ public class Monopoly{
     }
     
     public Monopoly() {
+        this.groupes = new HashMap<>();
         this.CreerPlateau("data.txt");
     }
     

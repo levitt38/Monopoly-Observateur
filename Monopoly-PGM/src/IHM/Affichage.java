@@ -42,12 +42,22 @@ public class Affichage {
         Questions.increment();
         Questions.affiche(Integer.toString(j.getCash())+" $");
         Questions.affiche(j.getPositionCourante().getNomCarreau());
+        if(j.getNbGares()>0){
         Questions.affiche("Gares :");
         Questions.increment();
-        for (Gare g:j.getGares()){
-            Questions.affiche(g.getNomCarreau());
+            for (Gare g:j.getGares()){
+                Questions.affiche(g.getNomCarreau());
+            }
+            Questions.decrement();
         }
-        Questions.decrement();
+        if(!j.getProprietes().isEmpty()){
+            Questions.affiche("Proprietes :");
+            Questions.increment();
+            for (Propriete p:j.getProprietes()){
+                Questions.affiche(p.getNomCarreauColored());
+            }
+            Questions.decrement();
+        }
         Questions.decrement();
     }
     
