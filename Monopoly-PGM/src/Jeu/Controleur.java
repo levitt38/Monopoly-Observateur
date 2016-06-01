@@ -94,7 +94,7 @@ public class Controleur {
         }
         Evenement res = c.action(j);
         switch(res){
-            case PayerLoyer : Questions.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.calculLoyer()+"€ a"+cAchetable.getProprietaire()); 
+            case PayerLoyer : Questions.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.getPrixAchat()+"€ a"+cAchetable.getProprietaire()); 
                              j.payerLoyer(cAchetable.calculLoyer());
                              cAchetable.getProprietaire().payerLoyer(cAchetable.calculLoyer());
                              break;
@@ -102,7 +102,7 @@ public class Controleur {
             case AchatPossible : String choix = "non";                                    
                           if(Questions.askYN("Voulez-vous acheter "+c.getNomCarreau()+" pour "+cAchetable.getPrixAchat()+"€ ?")){
                               j.payerLoyer(cAchetable.getPrixAchat());
-                              j.addCarreauAchetable(cAchetable);
+                              cAchetable.acheter(j);
                           } break;
             case AchatImpossible : Questions.affiche("Vous n'avez pas le budget pour acheter ce bien"); break;
             default : Questions.affiche("Vous êtes tranquille. Pour le moment..."); ;
@@ -142,7 +142,7 @@ public class Controleur {
         }
         for (Joueur j:this.getMonopoly().getJoueurs()){
             if(!j.estBankrupt()){
-                Questions.affiche(TextColors.BLUE+"Partie Terminée !! "+TextColors.GREEN+"Le joueur "+j.getNomJoueur()+" l'emporte");
+                Questions.affiche(TextColors.BLUE+"Partie Terminée !! "+TextColors.GREEN+"Le joueur "+j.getNomJoueur()+" l'emporte"+TextColors.RESET);
             }
         }
     }

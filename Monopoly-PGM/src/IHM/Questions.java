@@ -35,8 +35,9 @@ public class Questions {
             affiche(s);
             try{
                 choix = scan.nextInt();
-                valide = true;
+                valide = (choix>0) ? true : false;
             } catch(Exception e){ affiche(TextColors.RED+"Merci de rentrer un chiffre svp !"+TextColors.RESET); valide=false; scan.next();}
+            
         }while(!valide);
         return choix;
     }
