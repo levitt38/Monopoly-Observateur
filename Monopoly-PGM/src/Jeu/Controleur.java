@@ -22,7 +22,7 @@ import java.util.Random;
 public class Controleur {
     protected Monopoly monopoly;
     protected boolean partieContinue = true;
-    protected boolean lancerDouble = true;
+    protected boolean lancerDouble = false;
     
     public Controleur() {
         this.monopoly = new Monopoly();
@@ -46,6 +46,8 @@ public class Controleur {
         if(lancer==lancer2){
             this.lancerDouble = true;
             Questions.affiche(TextColors.BLUE+"Vous avez fait un double !"+TextColors.RESET);
+        }else{
+            this.lancerDouble=false;
         }
         lancer += lancer2;
         //Cette ligne sert a récupérer le montant des dès du lancer pour réaliser le loyer d'une compagnie
@@ -66,45 +68,46 @@ public class Controleur {
     }
     
     public void joueurDead(Joueur j){
-        this.monopoly.getJoueurs().remove(j);
         Questions.affiche(TextColors.RED+"Le joueur "+j.getNomJoueur()+" vient d'être éliminé"+TextColors.RESET);
     }
     
     public boolean partieEstFinie(){
+        int nbAlive = 0;
+        for(Joueur j:this.monopoly.getJoueurs()){
+            if (!j.estBankrupt()){
+                nbAlive+=1;
+            }
+        }
+        return nbAlive<=1;/*
         if(this.monopoly.getJoueurs().size()<2){
             this.partieContinue = false;
-            Questions.affiche(TextColors.BLUE+"Partie Terminée !! "+TextColors.GREEN+"Le joueur "+monopoly.getJoueurs().get(0).getNomJoueur()+" l'emporte");
+            
             throw new partieFinieException();
-        }
+        }*/
     }
     
-    public void jouerUnCoup(Joueur j) throws joueurDeadException{
-        this.lancerDouble=true;
-        while(lancerDouble){
-            this.lancerDouble = false;
-            j.setPositionCourante(lancerDesAvancer(j));
-            Carreau c = j.getPositionCourante(); CarreauAchetable cAchetable = null;
-            if(c.getType()!=TypeCarreau.AutreCarreau) {
-                cAchetable = (CarreauAchetable)j.getPositionCourante();
-            }
-            Evenement res = c.action(j);
-            switch(res){
-                case PayerLoyer : Questions.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.calculLoyer()+"€ a"+cAchetable.getProprietaire()); 
-                                 j.payerLoyer(cAchetable.calculLoyer());
-                                 cAchetable.getProprietaire().payerLoyer(cAchetable.calculLoyer());
-                                 break;
-                case SurSaCase : Questions.affiche("Vous êtes sur une de vos propriété, détendez vous"); break;
-                case AchatPossible : String choix = "non";                                    
-                              if(Questions.askYN("Voulez-vous acheter "+c.getNomCarreau()+" pour "+cAchetable.getPrixAchat()+"€ ?")){
-                                  j.payerLoyer(cAchetable.getPrixAchat());
-                                  j.addCarreauAchetable(cAchetable);
-                              } break;
-                case AchatImpossible : Questions.affiche("Vous n'avez pas le budget pour acheter ce bien"); break;
-                default : Questions.affiche("Vous êtes tranquille. Pour le moment..."); ;
-            }
-            //Renvoie une arithmetic exception si le joueur fait faillite
-            j.estBankrupt();
+    public void jouerUnCoup(Joueur j){
+        j.setPositionCourante(lancerDesAvancer(j));
+        Carreau c = j.getPositionCourante(); CarreauAchetable cAchetable = null;
+        if(c.getType()!=TypeCarreau.AutreCarreau) {
+            cAchetable = (CarreauAchetable)j.getPositionCourante();
         }
+        Evenement res = c.action(j);
+        switch(res){
+            case PayerLoyer : Questions.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.calculLoyer()+"€ a"+cAchetable.getProprietaire()); 
+                             j.payerLoyer(cAchetable.calculLoyer());
+                             cAchetable.getProprietaire().payerLoyer(cAchetable.calculLoyer());
+                             break;
+            case SurSaCase : Questions.affiche("Vous êtes sur une de vos propriété, détendez vous"); break;
+            case AchatPossible : String choix = "non";                                    
+                          if(Questions.askYN("Voulez-vous acheter "+c.getNomCarreau()+" pour "+cAchetable.getPrixAchat()+"€ ?")){
+                              j.payerLoyer(cAchetable.getPrixAchat());
+                              j.addCarreauAchetable(cAchetable);
+                          } break;
+            case AchatImpossible : Questions.affiche("Vous n'avez pas le budget pour acheter ce bien"); break;
+            default : Questions.affiche("Vous êtes tranquille. Pour le moment..."); ;
+        }
+
     }
     
        
@@ -120,26 +123,28 @@ public class Controleur {
     }
     
     public void mainLoop(){
-            initPartie();
-            while(partieContinue){
-                try {
-                    for (Joueur j:this.monopoly.getJoueurs()){
-                        try{
-                            Affichage.afficherPlateau(monopoly);
-                            Affichage.AfficherJoueur(j);
-                            this.jouerUnCoup(j);
-                        }
-                        //Une exception est levée si le joueur est insolvable, puis on vérifie si la partie continue
-                        catch(joueurDeadException e) {
-                            joueurDead(j); 
-                            partieEstFinie();
-                        } 
-                        Affichage.afficherFinTour();
-                    }
-                } 
-                //Si exception => le boolean=false et on arrête de boucler
-                catch(partieFinieException e) {};
+        initPartie();
+        int tour = 0;
+        while(!this.partieEstFinie()){
+            Joueur j=this.getMonopoly().getJoueurs().get(tour);
+            if(!j.estBankrupt()){
+                Affichage.afficherPlateau(monopoly);
+                Affichage.AfficherJoueur(j);
+                this.jouerUnCoup(j);
+                if(j.estBankrupt()){
+                    joueurDead(j); 
+                }
+                Affichage.afficherFinTour();
             }
+            if((!this.lancerDouble)&&(!j.estBankrupt())){
+                tour=(tour+1)%this.monopoly.getJoueurs().size();
+            }
+        }
+        for (Joueur j:this.getMonopoly().getJoueurs()){
+            if(!j.estBankrupt()){
+                Questions.affiche(TextColors.BLUE+"Partie Terminée !! "+TextColors.GREEN+"Le joueur "+j.getNomJoueur()+" l'emporte");
+            }
+        }
     }
 
     public Monopoly getMonopoly() {

@@ -22,10 +22,8 @@ public class Joueur {
         this._carreaux = new HashSet<>();
     }
     
-    public void estBankrupt() throws joueurDeadException{
-        if(getCash()<0){
-            throw new joueurDeadException();
-        }
+    public boolean estBankrupt(){
+        return this.getCash()<0;
     }
     
     /////////////////////////////////////////////

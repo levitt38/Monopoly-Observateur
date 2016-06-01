@@ -31,7 +31,7 @@ public class Groupe {
     /**
      * @param proprietes the proprietes to set
      */
-    public void setProprietes(ArrayList<Propriete> proprietes) {
+    private void setProprietes(ArrayList<Propriete> proprietes) {
         this.proprietes = proprietes;
     }
         
