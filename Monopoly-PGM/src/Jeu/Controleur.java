@@ -103,6 +103,7 @@ public class Controleur {
                               cAchetable.acheter(j);
                           } break;
             case AchatImpossible : Questions.affiche("Vous n'avez pas le budget pour acheter ce bien"); break;
+            case AllerEnPrison : //CODER LENVOI EN PRISON DU JOUEUR
             default : Questions.affiche("Vous êtes tranquille. Pour le moment..."); ;
         }
 

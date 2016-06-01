@@ -10,5 +10,5 @@ package Data;
  * @author mouhatcl
  */
 public enum Evenement {
-    Bankrupt,PayerLoyer,SurSaCase,AchatPossible,AchatImpossible,Rien
+    Bankrupt,PayerLoyer,SurSaCase,AchatPossible,AchatImpossible,Rien,AllerEnPrison
 }
