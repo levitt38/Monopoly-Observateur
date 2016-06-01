@@ -94,14 +94,12 @@ public class Controleur {
         }
         Evenement res = c.action(j);
         switch(res){
-            case PayerLoyer : Questions.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.getPrixAchat()+"€ a"+cAchetable.getProprietaire()); 
+            case PayerLoyer : Questions.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.getPrixAchat()+"€ a"+cAchetable.getProprietaire().getNomJoueur()); 
                              j.payerLoyer(cAchetable.calculLoyer());
-                             cAchetable.getProprietaire().payerLoyer(cAchetable.calculLoyer());
                              break;
             case SurSaCase : Questions.affiche("Vous êtes sur une de vos propriété, détendez vous"); break;
             case AchatPossible : String choix = "non";                                    
                           if(Questions.askYN("Voulez-vous acheter "+c.getNomCarreau()+" pour "+cAchetable.getPrixAchat()+"€ ?")){
-                              j.payerLoyer(cAchetable.getPrixAchat());
                               cAchetable.acheter(j);
                           } break;
             case AchatImpossible : Questions.affiche("Vous n'avez pas le budget pour acheter ce bien"); break;
