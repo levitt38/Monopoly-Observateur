@@ -15,6 +15,7 @@ public class Monopoly{
         private HashSet<Compagnie> compagnies = new HashSet<>();
         private ArrayList<Joueur> joueurs = new ArrayList<>();
         private HashMap<CouleurPropriete,Groupe> groupes;
+        private Prison prison;
         
 	public void CreerPlateau(String dataFilename){
 		buildGamePlateau(dataFilename);
@@ -58,6 +59,8 @@ public class Monopoly{
 				else if(caseType.compareTo("AU") == 0){
 					//System.out.println("Case Autre :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                                         getCarreaux().put(Integer.toString(i),new AutreCarreau(Integer.valueOf(data.get(i)[1])-1,data.get(i)[2]));
+                                        //création case prison
+                                        if(i==10){this.prison = new Prison(10);}
 				}
 				else
                                     if (i!=40){
@@ -118,6 +121,11 @@ public class Monopoly{
         this.groupes = new HashMap<>();
         this.CreerPlateau("data.txt");
     }
+
+    public Prison getPrison() {
+        return prison;
+    }
+    
     
 }
 
