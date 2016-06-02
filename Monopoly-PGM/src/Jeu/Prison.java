@@ -5,8 +5,11 @@
  */
 package Jeu;
 
+import Data.Evenement;
+import Data.TypeCarreau;
 import java.util.ArrayList;
 import java.util.HashSet;
+
 
 /**
  *
@@ -20,6 +23,16 @@ public class Prison extends AutreCarreau{
         this.listeDétenus = new HashSet<>();
     }
     
+    @Override
+    public TypeCarreau getType(){
+        return TypeCarreau.Prison;
+    }
+    
+    @Override
+   public Evenement action(Joueur j) { 
+       return Evenement.EstEnPrison;
+   }
+ 
     public void emprisonnerDétenu(Joueur j){
         j.setPositionCourante(this);
         this.listeDétenus.add(j);

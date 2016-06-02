@@ -9,6 +9,8 @@ public class Joueur {
 	private String _nomJoueur;
 	private int _cash = 1500;
         private int doublesALaSuite = 0;
+        private int nb_toursEnPrison = 0;
+        private boolean dernierDouble = false;
         private boolean prisonnier = false;
 	private HashSet<Gare> _gares;
         private HashSet<Propriete> _proprietes;
@@ -29,6 +31,14 @@ public class Joueur {
         return this.getCash()<0;
     }
 
+    public int getNb_toursEnPrison() {
+        return nb_toursEnPrison;
+    }
+
+    public void setNb_toursEnPrison(int nb_toursEnPrison) {
+        this.nb_toursEnPrison = nb_toursEnPrison;
+    }
+    
     public boolean estPrisonnier() {
         return prisonnier;
     }
@@ -37,6 +47,14 @@ public class Joueur {
         this.prisonnier = prisonnier;
     }
 
+    public boolean isDernierDouble() {
+        return dernierDouble;
+    }
+
+    public void setDernierDouble(boolean dernierDouble) {
+        this.dernierDouble = dernierDouble;
+    }
+    
     public int getDoublesALaSuite() {
         return doublesALaSuite;
     }

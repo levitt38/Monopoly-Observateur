@@ -10,5 +10,5 @@ package Data;
  * @author mouhatcl
  */
 public enum TypeCarreau {
-    AutreCarreau,Gare,ProprieteAConstruire,Compagnie
+    AutreCarreau,Gare,ProprieteAConstruire,Compagnie,Prison,AllerEnPrison
 }

@@ -49,7 +49,11 @@ public class Controleur {
         //Est-ce un double ?
         if(lancer==lancer2){
             this.lancerDouble = true;
+            // le joueur avait il fait un double au tour precedant ?
+            if(j.isDernierDouble()){
             j.setDoublesALaSuite(j.getDoublesALaSuite()+1);
+            } else {j.setDoublesALaSuite(0);}
+            // le joueur en est il a son troisième double ?
             if(j.getDoublesALaSuite()==3){
                 j.setDoublesALaSuite(0);
                 Questions.affiche(TextColors.RED+"C'est votre 3ème double => direction prison !"+TextColors.RESET);
@@ -108,6 +112,28 @@ public class Controleur {
         }*/
     }
     
+    public void gestionPrisonnier(Joueur j){
+        //Il faudra gérer si le joueur possède la carte SortirdePrison
+        int lancer1, lancer2;
+        lancer1 = lancerD6();
+        lancer2 = lancerD6();
+        if(lancer1==lancer2){
+            Questions.affiche(TextColors.GREEN+"Vous avez fait un double, fin de votre séjour en prison ! Vous rejouer"+TextColors.RESET);
+            this.monopoly.getPrison().libérerDétenu(j);
+            j.setPositionCourante(this.monopoly.getCarreau(lancer1+lancer2));
+            // IL FAUDRA GERER LE FAIT QUE LE JOUEUR REJOUE DIRECT DANS LA MAINLOOP
+            return; // sort de la méthode
+        } else {Questions.affiche(TextColors.RED+"Vous n'avez pas fait de double, vous restez en prison !"+TextColors.RESET); }
+        
+        j.setNb_toursEnPrison(j.getNb_toursEnPrison()+1);
+        
+        if(j.getNb_toursEnPrison()==3){
+            Questions.affiche(TextColors.RED+"fin de vos 3 tours en prison ! vous payer 50€"+TextColors.RESET);
+            j.setCash(j.getCash()-50);
+            this.monopoly.getPrison().libérerDétenu(j);
+        }
+    }
+    
     public void evenementCaseAchetable(Evenement res, CarreauAchetable cAchetable, Joueur j){
         switch(res){
             case PayerLoyer : Questions.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.getPrixAchat()+"€ a"+cAchetable.getProprietaire().getNomJoueur()); 
@@ -126,20 +152,26 @@ public class Controleur {
     public void evenementCaseAutre(Evenement res, AutreCarreau cAutre, Joueur j){
         // A implémenter avec les différents évenements
         switch(res){
-            case EstEnPrison : 
+            case EstEnPrison : gestionPrisonnier(j); break;
+            case AllerEnPrison : this.monopoly.getPrison().emprisonnerDétenu(j); 
+                                 Questions.affiche(TextColors.RED+"joueur "+j.getNomJoueur()+" envoyé en prison!"+TextColors.RESET);
+                                 break;
+            // futures autres évenements : carte chance
         }
     }
     
     public void jouerUnCoup(Joueur j){
         try{
-            j.setPositionCourante(lancerDesAvancer(j));
+            if(! j.estPrisonnier()){
+                j.setPositionCourante(lancerDesAvancer(j));
+            }
             Carreau c = j.getPositionCourante(); CarreauAchetable cAchetable = null; AutreCarreau cAutre = null; 
             // Récupère l'évenement en cours indépendament d'une case achetable ou autre
             Evenement res = c.action(j);
             // Est on sur une case achetable ou un autre carreau ?
-            if(c.getType()!=TypeCarreau.AutreCarreau) {
+            if(c.getType()==TypeCarreau.Compagnie || c.getType()==TypeCarreau.Gare || c.getType()==TypeCarreau.ProprieteAConstruire) {
                 cAchetable = (CarreauAchetable)j.getPositionCourante();
-                evenementCaseAchetable(res,cAchetable,j);
+                evenementCaseAchetable(res,cAchetable,j); // voir deux méthodes d'au dessus ^^^
             } else {
                 cAutre = (AutreCarreau)j.getPositionCourante();
                 evenementCaseAutre(res,cAutre,j);
