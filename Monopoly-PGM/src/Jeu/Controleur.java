@@ -75,6 +75,21 @@ public class Controleur {
     }
     
     public void joueurDead(Joueur j){
+        
+        for (Propriete p:j.getProprietes()){
+            this.monopoly.setNbMaisons(this.monopoly.getNbMaisons()+p.resetMaisons());
+            this.monopoly.setNbHotels(this.monopoly.getNbHotels()+(p.resetHotel() ? 1 : 0));
+            p.resetProprietaire();
+            j.removeCarreauAchetable(p);
+        }
+        for (Gare g:j.getGares()){
+            g.resetProprietaire();
+            j.removeCarreauAchetable(g);
+        }
+        for (Compagnie c:j.getCompagnies()){
+            c.resetProprietaire();
+            j.removeCarreauAchetable(c);
+        }
         Questions.affiche(TextColors.RED+"Le joueur "+j.getNomJoueur()+" vient d'être éliminé"+TextColors.RESET);
     }
     

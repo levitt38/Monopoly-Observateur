@@ -113,17 +113,18 @@ public class Monopoly{
     }
     
     public void construire(Propriete p) throws pasAssezDeMaisonsException{
-        if(p.getNbMaisons()<5){
+        if(p.getNbMaisons()<4){
             if (this.nbMaisons==0){
                 throw new pasAssezDeMaisonsException();
             }else{
                 this.nbMaisons--;
+                p.construireMaison();
             }
         }else{
             this.nbHotels--;
-            this.nbMaisons+=4;
+            this.nbMaisons+=p.construireHotel();
         }
-        p.construireMaison();
+        
     }
     
     
@@ -144,6 +145,22 @@ public class Monopoly{
 
     public Prison getPrison() {
         return prison;
+    }
+
+    public int getNbMaisons() {
+        return nbMaisons;
+    }
+
+    public void setNbMaisons(int nbMaisons) {
+        this.nbMaisons = nbMaisons;
+    }
+
+    public int getNbHotels() {
+        return nbHotels;
+    }
+
+    public void setNbHotels(int nbHotels) {
+        this.nbHotels = nbHotels;
     }
     
     

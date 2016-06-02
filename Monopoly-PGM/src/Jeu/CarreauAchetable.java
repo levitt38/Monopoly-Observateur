@@ -64,4 +64,8 @@ public abstract class CarreauAchetable extends Carreau{
     public void setProprietaire(Joueur _proprietaire) {
         this._proprietaire = _proprietaire;
     }
+    
+    public void resetProprietaire(){
+        this._proprietaire = null;
+    }
 }

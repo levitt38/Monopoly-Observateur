@@ -98,6 +98,16 @@ public class Joueur {
             default : return;
         }
     }
+    
+    public void removeCarreauAchetable(CarreauAchetable c){
+        TypeCarreau type = c.getType();
+        switch(type){
+            case ProprieteAConstruire : this._proprietes.remove((Propriete)c);break;
+            case Gare : this._gares.remove((Gare)c);break;
+            case Compagnie : this._compagnies.remove((Compagnie)c);break;
+            default : break;
+        }
+    }
     /////////////////////////////////////////////
     public String getNomJoueur() {
         return _nomJoueur;

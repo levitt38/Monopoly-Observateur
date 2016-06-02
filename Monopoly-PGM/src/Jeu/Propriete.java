@@ -14,7 +14,8 @@ import java.util.Scanner;
 public class Propriete extends CarreauAchetable {  
         private int[] loyers; //prix incrémenté par construction supp, dans version PT
         private Groupe groupe;
-        private int nbMaisons;//de 0 à 5
+        private int nbMaisons;//de 0 à 4
+        private boolean hotel;
         private int prixMaison;
       
         
@@ -37,7 +38,7 @@ public class Propriete extends CarreauAchetable {
         
         @Override
 	public int calculLoyer() {
-            return this.getLoyers()[this.getNbMaisons()];
+            return this.getLoyers()[this.hotel ? 5 : this.getNbMaisons()];
 	}
 
     public int[] getLoyers() {
@@ -48,6 +49,12 @@ public class Propriete extends CarreauAchetable {
         return nbMaisons;
     }
 
+    public int resetMaisons(){
+        int nb = this.getNbMaisons();
+        this.setNbMaisons(0);
+        return nb;
+    }
+    
     public Groupe getGroupe() {
         return groupe;
     }
@@ -63,5 +70,18 @@ public class Propriete extends CarreauAchetable {
     public void construireMaison(){
         this.nbMaisons++;
         this.getProprietaire().payer(this.getPrixMaison());
+    }
+    public int construireHotel(){
+        this.hotel = true;
+        this.getProprietaire().payer(this.getPrixMaison());
+        return this.resetMaisons();
+    }
+    public boolean resetHotel(){
+        boolean ret = this.hotel;
+        this.hotel = false;
+        return ret;
+    }
+    public boolean hasHotel(){
+        return this.hotel;
     }
 }
