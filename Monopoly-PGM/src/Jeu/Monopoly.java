@@ -1,6 +1,7 @@
 package Jeu;
 
 import Data.CouleurPropriete;
+import Exceptions.pasAssezDeMaisonsException;
 import IHM.Questions;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -111,9 +112,13 @@ public class Monopoly{
         return carreaux;
     }
     
-    public void construire(Propriete p){
+    public void construire(Propriete p) throws pasAssezDeMaisonsException{
         if(p.getNbMaisons()<5){
-            this.nbMaisons--;
+            if (this.nbMaisons==0){
+                throw new pasAssezDeMaisonsException();
+            }else{
+                this.nbMaisons--;
+            }
         }else{
             this.nbHotels--;
             this.nbMaisons+=4;

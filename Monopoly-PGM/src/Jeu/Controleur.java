@@ -10,11 +10,14 @@ import Data.TypeCarreau;
 import Exceptions.joueurDeadException;
 import Exceptions.joueurTripleDouble;
 import Exceptions.partieFinieException;
+import Exceptions.pasAssezDeMaisonsException;
 import IHM.Affichage;
 import IHM.Questions;
 import IHM.TextColors;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -140,7 +143,11 @@ public class Controleur {
                 if(p.getNbMaisons()<5){
                     if(p.getPrixMaison()<=j.getCash()){
                         if(p.getNbMaisons()<=p.getGroupe().getMinMaisons()){
-                            this.monopoly.construire(p);
+                            try {
+                                this.monopoly.construire(p);
+                            } catch (pasAssezDeMaisonsException ex) {
+                                Questions.affiche(TextColors.RED+"Il n'y a plus de maisons disponibles."+TextColors.RESET);
+                            }
                         }else{
                             Questions.affiche(TextColors.RED+"Vous devez d'abord construire sur les autres terrains de ce groupe."+TextColors.RESET);
                         }
