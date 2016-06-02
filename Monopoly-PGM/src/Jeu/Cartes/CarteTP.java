@@ -5,7 +5,9 @@
  */
 package Jeu.Cartes;
 
+import Data.Evenement;
 import Data.TypeCarte;
+import Jeu.Monopoly;
 
 /**
  *
@@ -15,6 +17,12 @@ public class CarteTP extends CarteDeplacement{
 
     public CarteTP(String text, TypeCarte type, int location) {
         super(text, type, location);
+    }
+
+    @Override
+    public Evenement use(Monopoly m) {
+        this.getOwner().setPositionCourante(m.getCarreau(this.getDeplacement()));
+        return Evenement.Rien;
     }
     
 }

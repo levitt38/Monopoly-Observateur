@@ -5,22 +5,24 @@
  */
 package Jeu.Cartes;
 
+import Data.Evenement;
 import Data.TypeCarte;
+import Jeu.Monopoly;
 
 /**
  *
  * @author Louis
  */
-public abstract class CarteArgent extends Carte{
-    private int somme;
-    
-    public CarteArgent(String text, TypeCarte type, int somme) {
+public class CarteSortiePrison extends Carte{
+
+    public CarteSortiePrison(String text, TypeCarte type) {
         super(text, type);
-        this.somme = somme;
     }
 
-    public int getSomme() {
-        return somme;
+    @Override
+    public Evenement use(Monopoly m) {
+        this.getOwner().setPositionCourante(m.getCarreau(10));
+        return Evenement.SortieDePrison;
     }
     
 }

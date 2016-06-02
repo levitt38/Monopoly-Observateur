@@ -5,7 +5,9 @@
  */
 package Jeu.Cartes;
 
+import Data.Evenement;
 import Data.TypeCarte;
+import Jeu.Monopoly;
 
 /**
  *
@@ -15,6 +17,15 @@ public class CarteBouger extends CarteDeplacement{
 
     public CarteBouger(String text, TypeCarte type, int location) {
         super(text, type, location);
+    }
+
+    @Override
+    public Evenement use(Monopoly m) {
+        int carreau = this.getOwner().getPositionCourante().getNumero()+this.getDeplacement();
+        Evenement ret = (carreau > 39) ? Evenement.PasseParDepart : Evenement.Rien;
+        getOwner().setPositionCourante(m.getCarreau(carreau%40)); // ATTENTION PEUT POSER DES PROBLèMES EN CAS DE CASE NéGATIVE
+        return ret;
+        // reste à voir comment il joue ce tour, je sais pas encore
     }
     
 }
