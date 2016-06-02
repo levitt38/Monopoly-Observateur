@@ -5,10 +5,26 @@
  */
 package Jeu;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author nourik
  */
-public class Prison {
+public class Prison extends AutreCarreau{
+    private ArrayList<Joueur> listeDétenus;
+    
+    public Prison(int num){
+        super(num,"Prison");
+        this.listeDétenus = new ArrayList<>();
+    }
+    
+    public void ajouterDétenu(Joueur j){
+        this.listeDétenus.add(j);
+    }
+    
+    public void libérerDétenu(Joueur j){
+        this.listeDétenus.remove(j);
+    }
     
 }
