@@ -20,7 +20,8 @@ public class Prison extends AutreCarreau{
         this.listeDétenus = new HashSet<>();
     }
     
-    public void ajouterDétenu(Joueur j){
+    public void emprisonnerDétenu(Joueur j){
+        j.setPositionCourante(this);
         this.listeDétenus.add(j);
         j.setPrisonnier(true);
     }

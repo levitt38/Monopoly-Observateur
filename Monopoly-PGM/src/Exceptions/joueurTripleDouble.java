@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Data;
+package Exceptions;
 
 /**
  *
- * @author mouhatcl
+ * @author nourik
  */
-public enum Evenement {
-    Bankrupt,PayerLoyer,SurSaCase,AchatPossible,AchatImpossible,Rien,EstEnPrison
+public class joueurTripleDouble extends Exception{
+    
+    public joueurTripleDouble (){
+        super();
+    }
+    
 }

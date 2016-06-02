@@ -8,6 +8,7 @@ import java.util.HashSet;
 public class Joueur {
 	private String _nomJoueur;
 	private int _cash = 1500;
+        private int doublesALaSuite = 0;
         private boolean prisonnier = false;
 	private HashSet<Gare> _gares;
         private HashSet<Propriete> _proprietes;
@@ -34,6 +35,14 @@ public class Joueur {
 
     public void setPrisonnier(boolean prisonnier) {
         this.prisonnier = prisonnier;
+    }
+
+    public int getDoublesALaSuite() {
+        return doublesALaSuite;
+    }
+
+    public void setDoublesALaSuite(int doublesALaSuite) {
+        this.doublesALaSuite = doublesALaSuite;
     }
     /////////////////////////////////////////////
     public void recevoirPaie(){

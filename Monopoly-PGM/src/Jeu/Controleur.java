@@ -8,6 +8,7 @@ package Jeu;
 import Data.Evenement;
 import Data.TypeCarreau;
 import Exceptions.joueurDeadException;
+import Exceptions.joueurTripleDouble;
 import Exceptions.partieFinieException;
 import IHM.Affichage;
 import IHM.Questions;
@@ -37,7 +38,7 @@ public class Controleur {
         return (int)(Math.random()*100%6)+1;
     }
     
-    public Carreau lancerDesAvancer(Joueur j){
+    public Carreau lancerDesAvancer(Joueur j) throws joueurTripleDouble{
         //Lancer1
         int lancer = lancerD6(), position = 0;
         //Lancer2
@@ -45,10 +46,13 @@ public class Controleur {
         //Est-ce un double ?
         if(lancer==lancer2){
             this.lancerDouble = true;
-            Questions.affiche(TextColors.BLUE+"Vous avez fait un double !"+TextColors.RESET);
-        }else{
-            this.lancerDouble=false;
-        }
+            j.setDoublesALaSuite(j.getDoublesALaSuite()+1);
+            if(j.getDoublesALaSuite()==3){
+                j.setDoublesALaSuite(0);
+                Questions.affiche(TextColors.RED+"C'est votre 3ème double => direction prison !"+TextColors.RESET);
+                throw new joueurTripleDouble();
+            } else { Questions.affiche(TextColors.BLUE+"Vous avez fait un double !"+TextColors.RESET); }
+        } else { this.lancerDouble=false; }
         lancer += lancer2;
         //Cette ligne sert a récupérer le montant des dès du lancer pour réaliser le loyer d'une compagnie
         for (Compagnie c : this.getMonopoly().getCompagnies()){
@@ -86,7 +90,7 @@ public class Controleur {
         }*/
     }
     
-    public void choixEvenement(Evenement res, CarreauAchetable cAchetable, Joueur j){
+    public void evenementCaseAchetable(Evenement res, CarreauAchetable cAchetable, Joueur j){
         switch(res){
             case PayerLoyer : Questions.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.getPrixAchat()+"€ a"+cAchetable.getProprietaire().getNomJoueur()); 
                              j.payerLoyer(cAchetable);
@@ -97,45 +101,58 @@ public class Controleur {
                               cAchetable.acheter(j);
                           } break;
             case AchatImpossible : Questions.affiche("Vous n'avez pas le budget pour acheter ce bien"); break;
-            case AllerEnPrison : //CODER LENVOI EN PRISON DU JOUEUR
             default : Questions.affiche("Vous êtes tranquille. Pour le moment..."); ;
         }
     }
     
+    public void evenementCaseAutre(Evenement res, AutreCarreau cAutre, Joueur j){
+        // A implémenter avec les différents évenements
+        switch(res){
+            case EstEnPrison : 
+        }
+    }
+    
     public void jouerUnCoup(Joueur j){
-        j.setPositionCourante(lancerDesAvancer(j));
-        Carreau c = j.getPositionCourante(); CarreauAchetable cAchetable = null;
-        if(c.getType()!=TypeCarreau.AutreCarreau) {
-            cAchetable = (CarreauAchetable)j.getPositionCourante();
-        }
-        Evenement res = c.action(j);
-        this.choixEvenement(res, cAchetable, j);
-        boolean construire = false;
-        if(j.getProprietesConstructibles().size()>0){
-            construire = Questions.askYN(TextColors.BLUE+"Voulez-vous construire ?"+TextColors.RESET);
-        }
-        while(construire&&j.getProprietesConstructibles().size()>0){
-            String s;
-            do{
-                s=Questions.askStr("Entrez le nom d'une rue");
-            }while(!this.monopoly.getCarreaux().containsKey(s) || !(this.monopoly.getCarreaux().get(s).getType()==TypeCarreau.ProprieteAConstruire));
-            Propriete p = (Propriete) this.monopoly.getCarreaux().get(s);
-            if(p.getNbMaisons()<5){
-                if(p.getPrixMaison()<=j.getCash()){
-                    if(p.getNbMaisons()<=p.getGroupe().getMinMaisons()){
-                        this.monopoly.construire(p);
+        try{
+            j.setPositionCourante(lancerDesAvancer(j));
+            Carreau c = j.getPositionCourante(); CarreauAchetable cAchetable = null; AutreCarreau cAutre = null; 
+            // Récupère l'évenement en cours indépendament d'une case achetable ou autre
+            Evenement res = c.action(j);
+            // Est on sur une case achetable ou un autre carreau ?
+            if(c.getType()!=TypeCarreau.AutreCarreau) {
+                cAchetable = (CarreauAchetable)j.getPositionCourante();
+                evenementCaseAchetable(res,cAchetable,j);
+            } else {
+                cAutre = (AutreCarreau)j.getPositionCourante();
+                evenementCaseAutre(res,cAutre,j);
+            }
+            boolean construire = false;
+            if(j.getProprietesConstructibles().size()>0){
+                construire = Questions.askYN(TextColors.BLUE+"Voulez-vous construire ?"+TextColors.RESET);
+            }
+            // On gère les constructions éventuelles si le joueur possède tous les carreaux d'un groupe
+            while(construire&&j.getProprietesConstructibles().size()>0){
+                String s;
+                do{
+                    s=Questions.askStr("Entrez le nom d'une rue");
+                }while(!this.monopoly.getCarreaux().containsKey(s) || !(this.monopoly.getCarreaux().get(s).getType()==TypeCarreau.ProprieteAConstruire));
+                Propriete p = (Propriete) this.monopoly.getCarreaux().get(s);
+                if(p.getNbMaisons()<5){
+                    if(p.getPrixMaison()<=j.getCash()){
+                        if(p.getNbMaisons()<=p.getGroupe().getMinMaisons()){
+                            this.monopoly.construire(p);
+                        }else{
+                            Questions.affiche(TextColors.RED+"Vous devez d'abord construire sur les autres terrains de ce groupe."+TextColors.RESET);
+                        }
                     }else{
-                        Questions.affiche(TextColors.RED+"Vous devez d'abord construire sur les autres terrains de ce groupe."+TextColors.RESET);
+                        Questions.affiche(TextColors.RED+"Vous n'avez pas assez d'argent pour construire sur ce terrain."+TextColors.RESET);
                     }
                 }else{
-                    Questions.affiche(TextColors.RED+"Vous n'avez pas assez d'argent pour construire sur ce terrain."+TextColors.RESET);
+                    Questions.affiche(TextColors.RED+"Il y a déjà le nombre maximal de maisons sur ce terrain."+TextColors.RESET);
                 }
-            }else{
-                Questions.affiche(TextColors.RED+"Il y a déjà le nombre maximal de maisons sur ce terrain."+TextColors.RESET);
             }
-            construire = Questions.askYN(TextColors.BLUE+"Voulez-vous encore construire ?"+TextColors.RESET);
-        }
-
+          // si le joueur en est a son 3eme double => go to prison
+        } catch(joueurTripleDouble e){this.monopoly.getPrison().emprisonnerDétenu(j);};
     }
     
        
