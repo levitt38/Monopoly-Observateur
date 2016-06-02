@@ -106,6 +106,24 @@ public class Controleur {
             case AllerEnPrison : //CODER LENVOI EN PRISON DU JOUEUR
             default : Questions.affiche("Vous êtes tranquille. Pour le moment..."); ;
         }
+        while(j.getProprietesConstructibles().size()>0){
+            String s;
+            do{
+                s=Questions.askStr("Entrez le nom d'une rue");
+            }while(!this.monopoly.getCarreaux().containsKey(s)&&this.monopoly.getCarreaux().get(s).getType()==TypeCarreau.ProprieteAConstruire);
+            Propriete p = (Propriete) this.monopoly.getCarreaux().get(s);
+            if(p.getNbMaisons()<5){
+                if(p.getPrixMaison()<=j.getCash()){
+                    p.setNbMaisons(p.getNbMaisons()+1);
+                    j.payerPropriete(p.getPrixMaison());//à changer
+                }else{
+                    Questions.affiche(TextColors.RED+"Vous n'avez pas assez d'argent pour construire sur ce terrain."+TextColors.RESET);
+                }
+            }else{
+                Questions.affiche(TextColors.RED+"Il y a déjà le nombre maximal de maisons sur ce terrain."+TextColors.RESET);
+            }
+            
+        }
 
     }
     

@@ -2,6 +2,7 @@ package Jeu;
 
 import Data.TypeCarreau;
 import Exceptions.joueurDeadException;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Joueur {
@@ -41,6 +42,11 @@ public class Joueur {
     
     public void payerLoyer(int loyer){
         this._cash = getCash()-loyer;
+    }
+    
+    public void payerLoyer(CarreauAchetable c){
+        this._cash -= c.calculLoyer();
+        c.getProprietaire().recevoirLoyer(c.calculLoyer());
     }
     /////////////////////////////////////////////
     public Carreau getPositionCourante(){
@@ -94,6 +100,27 @@ public class Joueur {
 
     public HashSet<Propriete> getProprietes() {
         return _proprietes;
+    }
+    /////////////////////////////////////////////
+    public ArrayList<Propriete> getProprietesConstructibles(){
+        HashSet<Groupe> grp = new HashSet<>();
+        for(Propriete p:this._proprietes){
+            grp.add(p.getGroupe());
+        }
+        ArrayList<Propriete> propACon = new ArrayList<>();
+        for (Groupe g:grp){
+            boolean contains = true;
+            for(Propriete p:g.getProprietes()){
+                contains = contains && this.getProprietes().contains(p);
+            }
+            if (contains){
+                for(Propriete p:g.getProprietes()){
+                    propACon.add(p);
+                }
+            }
+        }
+        return propACon;
+        
     }
    
 }

@@ -34,8 +34,12 @@ public class Monopoly{
                                         }
                                         Groupe g = groupes.get(CouleurPropriete.valueOf(data.get(i)[3]));
 					//System.out.println("Propriété :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+                                        int[] prix = new int[6];
+                                        for (int j=5;j<11;j++){
+                                            prix[j-5]=Integer.valueOf(data.get(i)[j]);
+                                        }
                                        Propriete p = new Propriete(Integer.valueOf(data.get(i)[1])-1,data.get(i)[2],g,
-                                                Integer.valueOf(data.get(i)[4]),Integer.valueOf(data.get(i)[5]));
+                                                Integer.valueOf(data.get(i)[4]),prix,Integer.valueOf(data.get(i)[11]));
                                         
                                         g.addPropriete(p);
                                         getCarreaux().put(Integer.toString(i),p);

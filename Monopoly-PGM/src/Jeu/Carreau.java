@@ -7,18 +7,18 @@ import java.util.ArrayList;
 public abstract class Carreau {
 	private int _numero;
 	private String _nomCarreau;
+        private ArrayList<Joueur> joueurs;
 
     private void setJoueurs(ArrayList<Joueur> joueurs) {
         this.joueurs = joueurs;
     }
-        private ArrayList<Joueur> joueurs;
         
         
-        public Carreau(int numero, String nomCarreau){
-            this._nomCarreau = nomCarreau;
-            this._numero = numero;
-            this.setJoueurs(new ArrayList<>());
-        }
+    public Carreau(int numero, String nomCarreau){
+        this._nomCarreau = nomCarreau;
+        this._numero = numero;
+        this.setJoueurs(new ArrayList<>());
+    }
 
     public int getNumero() {
         return _numero;

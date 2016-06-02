@@ -133,7 +133,6 @@ public class JeudeTest extends Controleur{
         jeu.fakeJouerUnCoup(joueur_test);
         //10) calcul loyer gare
         Questions.affiche(TextColors.CYAN+"loyer gare pour 1 gare"+TextColors.RESET);
-        s = scan.nextLine();Questions.affiche(TextColors.CYAN+"loyer gare pour 1 gare"+TextColors.RESET);
         s = scan.nextLine();
         CarreauAchetable gare1 = (CarreauAchetable)jeu.getMonopoly().getCarreau(15);
         gare1.acheter(joueur_test);
