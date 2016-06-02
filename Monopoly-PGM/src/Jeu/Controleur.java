@@ -86,6 +86,22 @@ public class Controleur {
         }*/
     }
     
+    public void choixEvenement(Evenement res, CarreauAchetable cAchetable, Joueur j){
+        switch(res){
+            case PayerLoyer : Questions.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.getPrixAchat()+"€ a"+cAchetable.getProprietaire().getNomJoueur()); 
+                             j.payerLoyer(cAchetable);
+                             break;
+            case SurSaCase : Questions.affiche("Vous êtes sur une de vos propriété, détendez vous"); break;
+            case AchatPossible : String choix = "non";                                    
+                          if(Questions.askYN("Voulez-vous acheter "+cAchetable.getNomCarreau()+" pour "+cAchetable.getPrixAchat()+"€ ?")){
+                              cAchetable.acheter(j);
+                          } break;
+            case AchatImpossible : Questions.affiche("Vous n'avez pas le budget pour acheter ce bien"); break;
+            case AllerEnPrison : //CODER LENVOI EN PRISON DU JOUEUR
+            default : Questions.affiche("Vous êtes tranquille. Pour le moment..."); ;
+        }
+    }
+    
     public void jouerUnCoup(Joueur j){
         j.setPositionCourante(lancerDesAvancer(j));
         Carreau c = j.getPositionCourante(); CarreauAchetable cAchetable = null;
@@ -93,19 +109,7 @@ public class Controleur {
             cAchetable = (CarreauAchetable)j.getPositionCourante();
         }
         Evenement res = c.action(j);
-        switch(res){
-            case PayerLoyer : Questions.affiche(j.getNomJoueur()+"paye un loyer de "+cAchetable.getPrixAchat()+"€ a"+cAchetable.getProprietaire().getNomJoueur()); 
-                             j.payerLoyer(cAchetable.calculLoyer());
-                             break;
-            case SurSaCase : Questions.affiche("Vous êtes sur une de vos propriété, détendez vous"); break;
-            case AchatPossible : String choix = "non";                                    
-                          if(Questions.askYN("Voulez-vous acheter "+c.getNomCarreau()+" pour "+cAchetable.getPrixAchat()+"€ ?")){
-                              cAchetable.acheter(j);
-                          } break;
-            case AchatImpossible : Questions.affiche("Vous n'avez pas le budget pour acheter ce bien"); break;
-            case AllerEnPrison : //CODER LENVOI EN PRISON DU JOUEUR
-            default : Questions.affiche("Vous êtes tranquille. Pour le moment..."); ;
-        }
+        
         while(j.getProprietesConstructibles().size()>0){
             String s;
             do{

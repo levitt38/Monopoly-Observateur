@@ -34,8 +34,8 @@ public abstract class CarreauAchetable extends Carreau{
 	}
 
 	public void acheter(Joueur aJ) {
-            aJ.addCarreauAchetable(this);
             aJ.payerPropriete(this.getPrixAchat());
+            aJ.addCarreauAchetable(this);
             this.setProprietaire(aJ);
 	}
  

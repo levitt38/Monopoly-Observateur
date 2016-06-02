@@ -8,6 +8,7 @@ import java.util.HashSet;
 public class Joueur {
 	private String _nomJoueur;
 	private int _cash = 1500;
+        private boolean prisonnier = false;
 	private HashSet<Gare> _gares;
         private HashSet<Propriete> _proprietes;
         private HashSet<Compagnie> _compagnies;
@@ -26,7 +27,14 @@ public class Joueur {
     public boolean estBankrupt(){
         return this.getCash()<0;
     }
-    
+
+    public boolean estPrisonnier() {
+        return prisonnier;
+    }
+
+    public void setPrisonnier(boolean prisonnier) {
+        this.prisonnier = prisonnier;
+    }
     /////////////////////////////////////////////
     public void recevoirPaie(){
         this._cash += 200;
@@ -38,10 +46,6 @@ public class Joueur {
     
     public void recevoirLoyer(int loyer){
         this._cash = getCash()+loyer;
-    }
-    
-    public void payerLoyer(int loyer){
-        this._cash = getCash()-loyer;
     }
     
     public void payerLoyer(CarreauAchetable c){
