@@ -59,4 +59,9 @@ public class Propriete extends CarreauAchetable {
     public void setNbMaisons(int nbMaisons) {
         this.nbMaisons = nbMaisons;
     }
+    
+    public void construireMaison(){
+        this.nbMaisons++;
+        this.getProprietaire().payer(this.getPrixMaison());
+    }
 }

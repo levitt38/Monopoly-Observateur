@@ -126,5 +126,7 @@ public class Joueur {
         return propACon;
         
     }
-   
+   public void payer(int i){
+       this.setCash(this.getCash()-i);
+   }
 }

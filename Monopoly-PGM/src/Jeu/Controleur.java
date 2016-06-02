@@ -109,24 +109,31 @@ public class Controleur {
             cAchetable = (CarreauAchetable)j.getPositionCourante();
         }
         Evenement res = c.action(j);
-        
-        while(j.getProprietesConstructibles().size()>0){
+        this.choixEvenement(res, cAchetable, j);
+        boolean construire = false;
+        if(j.getProprietesConstructibles().size()>0){
+            construire = Questions.askYN(TextColors.BLUE+"Voulez-vous construire ?"+TextColors.RESET);
+        }
+        while(construire&&j.getProprietesConstructibles().size()>0){
             String s;
             do{
                 s=Questions.askStr("Entrez le nom d'une rue");
-            }while(!this.monopoly.getCarreaux().containsKey(s)&&this.monopoly.getCarreaux().get(s).getType()==TypeCarreau.ProprieteAConstruire);
+            }while(!this.monopoly.getCarreaux().containsKey(s) || !(this.monopoly.getCarreaux().get(s).getType()==TypeCarreau.ProprieteAConstruire));
             Propriete p = (Propriete) this.monopoly.getCarreaux().get(s);
             if(p.getNbMaisons()<5){
                 if(p.getPrixMaison()<=j.getCash()){
-                    p.setNbMaisons(p.getNbMaisons()+1);
-                    j.payerPropriete(p.getPrixMaison());//à changer
+                    if(p.getNbMaisons()<=p.getGroupe().getMinMaisons()){
+                        this.monopoly.construire(p);
+                    }else{
+                        Questions.affiche(TextColors.RED+"Vous devez d'abord construire sur les autres terrains de ce groupe."+TextColors.RESET);
+                    }
                 }else{
                     Questions.affiche(TextColors.RED+"Vous n'avez pas assez d'argent pour construire sur ce terrain."+TextColors.RESET);
                 }
             }else{
                 Questions.affiche(TextColors.RED+"Il y a déjà le nombre maximal de maisons sur ce terrain."+TextColors.RESET);
             }
-            
+            construire = Questions.askYN(TextColors.BLUE+"Voulez-vous encore construire ?"+TextColors.RESET);
         }
 
     }

@@ -38,5 +38,15 @@ public class Groupe {
     public void addPropriete(Propriete p){
         this.getProprietes().add(p);
     }
+    
+    public int getMinMaisons(){
+        int min = 6;
+        for(Propriete p:this.getProprietes()){
+            if(p.getNbMaisons()<min){
+                min = p.getNbMaisons();
+            }
+        }
+        return min;
+    }
         
 }

@@ -15,6 +15,8 @@ public class Monopoly{
         private HashSet<Compagnie> compagnies = new HashSet<>();
         private ArrayList<Joueur> joueurs = new ArrayList<>();
         private HashMap<CouleurPropriete,Groupe> groupes;
+        private int nbMaisons;
+        private int nbHotels;
         
 	public void CreerPlateau(String dataFilename){
 		buildGamePlateau(dataFilename);
@@ -106,6 +108,17 @@ public class Monopoly{
         return carreaux;
     }
     
+    public void construire(Propriete p){
+        if(p.getNbMaisons()<5){
+            this.nbMaisons--;
+        }else{
+            this.nbHotels--;
+            this.nbMaisons+=4;
+        }
+        p.construireMaison();
+    }
+    
+    
     public Carreau getCarreau(int i){
         return this.getCarreaux().get(Integer.toString(i));
     }
@@ -117,6 +130,8 @@ public class Monopoly{
     public Monopoly() {
         this.groupes = new HashMap<>();
         this.CreerPlateau("data.txt");
+        this.nbHotels = 12;
+        this.nbMaisons = 32;
     }
     
 }
