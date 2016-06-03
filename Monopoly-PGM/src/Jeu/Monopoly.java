@@ -59,15 +59,27 @@ public class Monopoly{
                                         getCarreaux().put(Integer.toString(i),c);
                                         getCompagnies().add(c);
 				}
-				else if(caseType.compareTo("AU") == 0){
-					//System.out.println("Case Autre :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                                        getCarreaux().put(Integer.toString(i),new AutreCarreau(Integer.valueOf(data.get(i)[1])-1,data.get(i)[2]));
-                                        //création case prison
-                                        if(i==10){this.prison = new Prison(10);}
+                                else if(caseType.compareTo("CC") == 0){
+                                        CarreauCarte c = new CarreauCarte(i, data.get(i)[2]);
+                                        this.getCarreaux().put(Integer.toString(i), c);
 				}
+                                else if(caseType.compareTo("CP") == 0){
+                                        CarreauPenalite c = new CarreauPenalite(i,data.get(i)[2],-Integer.valueOf(data.get(i)[3]));
+                                        this.getCarreaux().put(Integer.toString(i), c);
+                                }
+                                else if(caseType.compareTo("CI") == 0){
+                                        CarreauInutile c = new CarreauInutile(i, data.get(i)[2]);
+                                        this.getCarreaux().put(Integer.toString(i), c);
+                                }
+                                else if(caseType.compareTo("PP") == 0){
+                                        this.getCarreaux().put(Integer.toString(i), new Prison(i));
+                                }else if(caseType.compareTo("CAP") == 0){
+                                        CarreauAllerEnPrison c = new CarreauAllerEnPrison(i,data.get(i)[2]);
+                                        this.getCarreaux().put(Integer.toString(i), c);
+                                }
 				else
-                                    if (i!=40){
-					System.err.println("[buildGamePleateau()] : Invalid Data type");
+                                    if (i!=41){
+					System.err.println("[buildGamePlateau()] : Invalid Data type"+data.get(i)[1]);
                                     }
 			}
 			
@@ -138,7 +150,7 @@ public class Monopoly{
     
     public Monopoly() {
         this.groupes = new HashMap<>();
-        this.CreerPlateau("data.txt");
+        this.CreerPlateau("./src/Data/data.txt");
         this.nbHotels = 12;
         this.nbMaisons = 32;
     }
