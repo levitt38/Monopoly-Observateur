@@ -156,6 +156,10 @@ public class Controleur {
             case AllerEnPrison : this.monopoly.getPrison().emprisonnerDétenu(j); 
                                  Questions.affiche(TextColors.RED+"joueur "+j.getNomJoueur()+" envoyé en prison!"+TextColors.RESET);
                                  break;
+            case PayerPenalite : CarreauPenalite pena = (CarreauPenalite)cAutre;
+            Questions.affiche(TextColors.RED+"Le joueur "+j.getNomJoueur()+" paie "+pena.getPenalite()+"$"+TextColors.RESET);
+            j.payer(pena.getPenalite());
+            break;
             // futures autres évenements : carte chance
         }
     }
